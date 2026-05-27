@@ -1,0 +1,79 @@
+import { projectCategories, projects } from "../data/projects.js";
+import { sectionHeader, tag } from "./ui.js";
+import { escapeHtml, html, list } from "../lib/dom.js";
+
+export function ProjectsSection() {
+  return html`
+    <section id="projects" class="section-shell" data-section>
+      ${sectionHeader("05", "Selected Projects", "Built ideas, prototypes, and systems.", "Filter the collection, then open a case study drawer for the problem, solution, stack, and impact.")}
+      <div class="filter-row reveal" role="tablist" aria-label="Project filters">
+        ${list(projectCategories, category => `<button class="filter-pill ${category === "All" ? "is-active" : ""}" type="button" data-filter="${category}">${category}</button>`)}
+      </div>
+      <div class="projects-grid" id="projectsGrid">
+        ${list(projects, projectCard)}
+      </div>
+    </section>
+    <aside class="project-drawer" id="projectDrawer" aria-hidden="true" aria-label="Project case study">
+      <button class="drawer-close" type="button" id="drawerClose" aria-label="Close project details">Close</button>
+      <div id="drawerContent"></div>
+    </aside>
+    <div class="drawer-scrim" id="drawerScrim" hidden></div>
+  `;
+}
+
+function projectCard(project, index) {
+  const categories = project.category.join(",");
+  return html`
+    <article class="project-card reveal" data-categories="${escapeHtml(categories)}" data-project="${escapeHtml(project.slug)}">
+      <button class="project-card__button" type="button" aria-label="Open ${escapeHtml(project.title)} case study">
+        <div class="project-card__visual ${project.image ? "" : "project-card__visual--empty"}">
+          ${project.image ? `<img src="${escapeHtml(project.image)}" alt="" loading="lazy">` : `<span>${escapeHtml(project.title.slice(0, 2))}</span>`}
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span>${String(index + 1).padStart(2, "0")}</span>
+            <span>${escapeHtml(project.year)} / ${escapeHtml(project.status)}</span>
+          </div>
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(project.description)}</p>
+          <div class="tag-cloud">${list(project.techStack.slice(0, 4), tag)}</div>
+        </div>
+      </button>
+    </article>
+  `;
+}
+
+export function drawerTemplate(project) {
+  return html`
+    <div class="drawer-content">
+      <p class="section-kicker">Case study / ${escapeHtml(project.year)}</p>
+      <h2>${escapeHtml(project.title)}</h2>
+      <p class="drawer-lead">${escapeHtml(project.description)}</p>
+      <div class="drawer-meta">
+        <span>${escapeHtml(project.role)}</span>
+        <span>${escapeHtml(project.status)}</span>
+      </div>
+      <div class="drawer-block">
+        <h3>Problem</h3>
+        <p>${escapeHtml(project.problem)}</p>
+      </div>
+      <div class="drawer-block">
+        <h3>Solution</h3>
+        <p>${escapeHtml(project.solution)}</p>
+      </div>
+      <div class="drawer-block">
+        <h3>Features</h3>
+        <ul>${list(project.features, item => `<li>${escapeHtml(item)}</li>`)}</ul>
+      </div>
+      <div class="drawer-block">
+        <h3>Impact</h3>
+        <p>${escapeHtml(project.impact)}</p>
+      </div>
+      <div class="tag-cloud">${list(project.techStack, tag)}</div>
+      <div class="drawer-actions">
+        ${project.github ? `<a class="btn btn--primary" href="${escapeHtml(project.github)}" target="_blank" rel="noreferrer">GitHub</a>` : ""}
+        ${project.demo ? `<a class="btn btn--ghost" href="${escapeHtml(project.demo)}" target="_blank" rel="noreferrer">Demo / Docs</a>` : ""}
+      </div>
+    </div>
+  `;
+}

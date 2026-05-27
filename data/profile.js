@@ -1,0 +1,26 @@
+export const profile = {
+  name: "Tahmid Al Sifat",
+  initials: "TS",
+  location: "Uxbridge, London, United Kingdom",
+  email: "tahmid66cs@gmail.com",
+  linkedin: "https://www.linkedin.com/in/tahmidsifat889/",
+  github: "https://github.com/Tahmid-Sifat",
+  photo: "images/tsMain.png",
+  cv: "Files/CV of Tahmid Al Sifat NS.pdf",
+  heroSentence: "This is not just my portfolio. This is my digital space to explore beyond limits, build with curiosity, and turn imagination into real, working experiences.",
+  identityLine: "BSc Computer Science Student ( Year 2 ) - Cyber Security Intern Associate at SMBC group - Full Stack Dev - Teaching Assistant - Student Ambassador",
+  intro: "I build practical web systems, experiment with emerging technologies, compete in hackathons, and explore life through travel, sports, creativity, and curiosity.",
+  about: [
+    "I'm a growth-driven Computer Science student at Brunel University London, having completed my second year and preparing to join SMBC Group as a Cybersecurity Intern Associate. My work sits across full-stack development, AI-driven applications, cybersecurity, robotics, and creative technology.",
+    "I see myself as someone who loves exploring beyond limits, whether that means building a new project, joining a hackathon, learning a new technology, travelling to new places, or stepping into unfamiliar challenges. I enjoy turning ideas into real working products, from designing the user experience to building the backend logic and connecting everything into something useful, polished, and meaningful.",
+    "Over the past few years, I have worked on full-stack applications, agentic AI systems, LLM-based tools, robotics projects, consultancy work, and hackathon prototypes. I have participated in multiple hackathons, won three of them, and received recognition for software innovation at my university. These experiences have shaped the way I build: fast, practical, collaborative, and always focused on impact.",
+    "Beyond technology, I'm an outgoing person with a vibrant personality. I enjoy meeting people, working in teams, communicating ideas clearly, and taking leadership when needed. I love food, travel, photography, movies, music, and sports. Badminton is my main sport, but I also enjoy target shooting, fencing, cycling, swimming, and playing guitar."
+  ],
+  stats: [
+    { value: "6", label: "Hackathons" },
+    { value: "3", label: "Wins" },
+    { value: "22+", label: "Countries explored" },
+    { value: "7+", label: "Work experience" }
+  ],
+  philosophy: "I believe the best way to learn is by building, experimenting, and applying ideas in the real world. Learning should never be limited to classrooms, textbooks, or fixed boundaries. In the age of AI, technical skills are important, but human skills matter just as much. Communication, teamwork, leadership, empathy, and collaboration are what turn knowledge into real impact. Just like Keating in 'Dead Poets Society', I value independent thinking, curiosity, creativity, and the courage to see the world differently. For me, learning is not only about studying. It is about building, exploring, experimenting, and applying ideas in the real world. For me, life is bigger than computers, code, and the internet. Sometimes the best clarity comes from travelling, meeting people, playing sport, creating music, taking photographs, or simply walking near a river or the sea."
+};
