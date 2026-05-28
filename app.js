@@ -380,6 +380,60 @@ function setupFluidCometCursor() {
   let pointerSamples = 0;
   let lastPointer = null;
 
+  const dispatchFluidWarmup = () => {
+    const baseX = Math.round(window.innerWidth * 0.14);
+    const baseY = Math.round(window.innerHeight * 0.82);
+    const points = [
+      [baseX, baseY],
+      [baseX + 18, baseY - 10],
+      [baseX + 35, baseY + 6],
+      [baseX + 52, baseY - 8]
+    ];
+    const targets = [canvas, window];
+
+    points.forEach(([clientX, clientY], index) => {
+      window.setTimeout(() => {
+        targets.forEach(target => {
+          const common = {
+            bubbles: true,
+            cancelable: true,
+            clientX,
+            clientY,
+            screenX: clientX,
+            screenY: clientY
+          };
+
+          if (window.PointerEvent) {
+            target.dispatchEvent(new PointerEvent("pointermove", {
+              ...common,
+              pointerId: 99,
+              pointerType: "mouse",
+              isPrimary: true
+            }));
+            target.dispatchEvent(new PointerEvent("pointerdown", {
+              ...common,
+              pointerId: 99,
+              pointerType: "mouse",
+              isPrimary: true,
+              buttons: 1
+            }));
+            target.dispatchEvent(new PointerEvent("pointerup", {
+              ...common,
+              pointerId: 99,
+              pointerType: "mouse",
+              isPrimary: true
+            }));
+          }
+
+          target.dispatchEvent(new MouseEvent("mousemove", common));
+          target.dispatchEvent(new MouseEvent("mousedown", { ...common, buttons: 1 }));
+          target.dispatchEvent(new MouseEvent("mouseup", common));
+          target.dispatchEvent(new MouseEvent("click", common));
+        });
+      }, 90 + index * 90);
+    });
+  };
+
   const startFluid = () => {
     if (fluidStarted) return;
     fluidStarted = true;
@@ -402,6 +456,7 @@ function setupFluidCometCursor() {
           transparent: true,
           backColor: { r: 0, g: 0, b: 0 }
         });
+        dispatchFluidWarmup();
         window.setTimeout(() => {
           fluidReady = true;
         }, 900);
@@ -412,6 +467,7 @@ function setupFluidCometCursor() {
   };
 
   const syncFluidState = event => {
+    if (event && !event.isTrusted) return;
     if (event) startFluid();
     if (event && fluidReady) {
       if (lastPointer) {
