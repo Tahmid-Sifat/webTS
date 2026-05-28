@@ -1,6 +1,5 @@
 export const hobbies = [
-  { title: "Travel and exploration", detail: "Visited 19 countries and still counting." },
-  { title: "Food", detail: "Always interested in the culture around a good meal." },
+  { title: "Travel and exploration", detail: "Visited 22 countries and still counting." },
   { title: "Photography", detail: "Mobile photography achievements and exhibition experience." },
   { title: "Movies", detail: "Stories, visuals, and atmosphere outside the code editor." },
   { title: "Music and guitar", detail: "A creative reset and stress reliever." },
@@ -9,6 +8,7 @@ export const hobbies = [
   { title: "Fencing", detail: "A new challenge blending speed and discipline." },
   { title: "Cycling", detail: "Movement, exploration, and city rhythm." },
   { title: "Swimming", detail: "Calm training and physical reset." },
-  { title: "Meeting people", detail: "Teamwork, leadership, and energy from shared ideas." },
-  { title: "Creativity", detail: "Finding links between technology, design, and life." }
+  { title: "Networking", detail: "Teamwork, leadership, and energy from shared ideas." },
+  { title: "Creativity", detail: "Finding links between technology, design, and life." },
+  { title: "Coin Collecting", detail: "A quiet hobby that connects me with history, travel, and the stories." }
 ];

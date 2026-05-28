@@ -19,6 +19,31 @@ export const projects = [
     impact: "Turns a niche public health problem into a clear, accessible digital tool."
   },
   {
+    title: "Council Point",
+    slug: "council-point",
+    category: ["AI", "Cybersecurity", "Hackathon", "Full-stack"],
+    description: "A secure AI-powered document intelligence platform designed to modernise how councils process scanned, historic, and sensitive records.",
+    role: "Full-stack and AI systems contributor",
+    techStack: ["React", "TypeScript", "Tailwind CSS", "NestJS", "PostgreSQL", "OCR", "Ollama"],
+    year: "2026",
+    status: "Hackathon prototype",
+    github: "",
+    demo: "",
+    image: "",
+    problem: "Councils still depend on manual document handling for large volumes of PDFs, scans, images, and historic handwritten records, which slows down routing, sharing, translation, and secure access.",
+    solution: "Built a working concept for an intelligent document pipeline with upload processing, AI extraction, GDPR redaction, department routing, multilingual support, access control, audit trails, and accessibility features.",
+    features: [
+      "PDF, image, scan, and handwritten record processing",
+      "OCR and LLM-ready extraction and summarisation pipeline",
+      "GDPR redaction with Share-Safe Score",
+      "Auto-routing to council departments",
+      "Translation support for multilingual residents",
+      "DBS-based access control and audit logging",
+      "Dark mode, font scaling, and text-to-speech accessibility"
+    ],
+    impact: "Turned a complex civic document workflow into a secure, sprint-built AI product concept across two rapid hackathon sprints."
+  },
+  {
     title: "KnownLy Support Map",
     slug: "knownly-support-map",
     category: ["Web", "Full-stack"],

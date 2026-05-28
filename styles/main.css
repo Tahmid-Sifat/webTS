@@ -26,8 +26,8 @@
 
 [data-theme="light"] {
   color-scheme: light;
-  --bg: #efe2d2;
-  --bg-soft: #e5d3c0;
+  --bg: #e8d6c2;
+  --bg-soft: #d9c3ad;
   --surface: rgba(250, 239, 226, 0.74);
   --surface-strong: rgba(246, 229, 210, 0.9);
   --text: #1f1915;
@@ -129,29 +129,29 @@ img {
 
 [data-theme="light"] .site-liquid {
   background:
-    linear-gradient(145deg, rgba(194, 101, 42, 0.16), transparent 38%),
-    radial-gradient(circle at 18% 16%, rgba(194, 101, 42, 0.22), transparent 28rem),
-    radial-gradient(circle at 82% 72%, rgba(140, 60, 60, 0.15), transparent 30rem),
-    radial-gradient(circle at 46% 96%, rgba(96, 88, 80, 0.11), transparent 34rem),
-    linear-gradient(180deg, #efe2d2, #e5d3c0);
+    linear-gradient(145deg, rgba(194, 101, 42, 0.2), transparent 38%),
+    radial-gradient(circle at 18% 16%, rgba(194, 101, 42, 0.26), transparent 27rem),
+    radial-gradient(circle at 82% 72%, rgba(140, 60, 60, 0.19), transparent 29rem),
+    radial-gradient(circle at 46% 96%, rgba(96, 88, 80, 0.15), transparent 32rem),
+    linear-gradient(180deg, #e8d6c2, #d9c3ad);
 }
 
 [data-theme="light"] .ambient-liquid-canvas {
-  opacity: 0.9;
+  opacity: 0.98;
 }
 
 [data-theme="light"] .fluid-cursor-canvas {
   opacity: 0;
   mix-blend-mode: multiply;
-  filter: grayscale(1) sepia(1) saturate(2.25) hue-rotate(335deg) brightness(0.76) contrast(0.9);
+  filter: grayscale(1) sepia(1) saturate(2.35) hue-rotate(335deg) brightness(0.7) contrast(1.03);
 }
 
 [data-theme="light"] .site-liquid.has-fluid-input .fluid-cursor-canvas {
-  opacity: 0.34;
+  opacity: 0.4;
 }
 
 [data-theme="light"] .site-liquid.is-readable-hover .fluid-cursor-canvas {
-  opacity: 0.12;
+  opacity: 0.16;
 }
 
 #app {
@@ -1003,6 +1003,7 @@ img {
 }
 
 .about-mini-nav a {
+  position: relative;
   padding: 9px 13px;
   border-radius: 999px;
   color: var(--muted);
@@ -1012,9 +1013,29 @@ img {
 }
 
 .about-mini-nav a:hover,
-.about-mini-nav a:focus-visible {
+.about-mini-nav a:focus-visible,
+.about-mini-nav a.is-active {
   background: color-mix(in srgb, var(--accent) 12%, transparent);
   color: var(--accent);
+}
+
+.about-mini-nav a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--accent);
+  opacity: 0;
+  transform: translateX(-50%) scaleX(0.45);
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.about-mini-nav a.is-active::after {
+  opacity: 1;
+  transform: translateX(-50%) scaleX(1);
 }
 
 .about-block {
@@ -1384,14 +1405,16 @@ img {
 
 .project-drawer {
   position: fixed;
-  top: 0;
+  top: 96px;
   right: 0;
   z-index: 120;
   width: min(520px, 100vw);
-  height: 100svh;
+  height: calc(100svh - 96px);
   padding: 30px;
   overflow-y: auto;
   border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  border-radius: 24px 0 0 0;
   background: color-mix(in srgb, var(--bg-soft) 92%, transparent);
   backdrop-filter: blur(28px);
   box-shadow: -30px 0 80px rgba(0, 0, 0, 0.35);
@@ -1410,12 +1433,16 @@ img {
 .drawer-scrim {
   position: fixed;
   inset: 0;
-  z-index: 110;
-  background: rgba(0, 0, 0, 0.5);
+  z-index: 70;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.5) 120px),
+    rgba(0, 0, 0, 0.38);
 }
 
 [data-theme="light"] .drawer-scrim {
-  background: rgba(65, 42, 28, 0.28);
+  background:
+    linear-gradient(180deg, rgba(65, 42, 28, 0.08), rgba(65, 42, 28, 0.28) 120px),
+    rgba(65, 42, 28, 0.22);
 }
 
 .drawer-close {
@@ -1536,16 +1563,91 @@ img {
   grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
+.recognition-wall {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
 .award-card,
 .mood-card {
   min-height: 210px;
   padding: 22px;
 }
 
+.recognition-wall .award-card {
+  min-height: 158px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 18px;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+}
+
+.recognition-wall .award-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 10px 10px auto;
+  width: 86px;
+  height: 86px;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 17%, transparent), transparent 68%);
+  opacity: 0;
+  filter: blur(14px);
+  transform: scale(0.7);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+
+.recognition-wall .award-card:hover,
+.recognition-wall .award-card:focus-within {
+  transform: translateY(-5px);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
+  background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+  box-shadow: var(--shadow), 0 0 34px color-mix(in srgb, var(--accent) 11%, transparent);
+}
+
+.recognition-wall .award-card:hover::before,
+.recognition-wall .award-card:focus-within::before,
+.recognition-wall .award-card:hover::after,
+.recognition-wall .award-card:focus-within::after {
+  opacity: 1;
+}
+
+.award-card__number {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, var(--line));
+  border-radius: 50%;
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+}
+
 .award-card h3,
 .mood-card h3 {
   margin-top: 18px;
   font-size: 1.2rem;
+}
+
+.recognition-wall .award-card h3 {
+  margin-top: 0;
+  font-size: clamp(1rem, 1.3vw, 1.18rem);
+  line-height: 1.2;
+}
+
+.recognition-wall .award-card p {
+  margin: 10px 0 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 .moodboard {
@@ -1564,6 +1666,97 @@ img {
 
 .human-layer {
   position: relative;
+}
+
+.human-layer .section-heading {
+  margin-bottom: 28px;
+}
+
+.human-layer .section-heading h2 {
+  max-width: 760px;
+  font-size: clamp(2rem, 4vw, 3.45rem);
+  line-height: 1.08;
+}
+
+.human-layer .moodboard {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.human-layer .mood-card,
+.human-layer .mood-card:nth-child(1),
+.human-layer .mood-card:nth-child(3),
+.human-layer .mood-card:nth-child(6) {
+  grid-column: span 1;
+}
+
+.human-layer .mood-card {
+  min-height: 156px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  isolation: isolate;
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+}
+
+.human-layer .mood-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 12px 12px auto;
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 18%, transparent), transparent 68%);
+  opacity: 0;
+  filter: blur(12px);
+  transform: scale(0.6);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  z-index: -1;
+}
+
+.human-layer .mood-card:hover,
+.human-layer .mood-card:focus-within {
+  transform: translateY(-6px) scale(1.012);
+  border-color: color-mix(in srgb, var(--accent) 42%, var(--line));
+  background: color-mix(in srgb, var(--surface-strong) 72%, transparent);
+  box-shadow: var(--shadow), 0 0 38px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.human-layer .mood-card:hover::before,
+.human-layer .mood-card:focus-within::before {
+  opacity: 1;
+}
+
+.human-layer .mood-card:hover::after,
+.human-layer .mood-card:focus-within::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mood-card__index {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+}
+
+.human-layer .mood-card h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: clamp(1rem, 1.35vw, 1.18rem);
+  line-height: 1.15;
+}
+
+.human-layer .mood-card p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
 }
 
 .philosophy-card {
@@ -1641,6 +1834,61 @@ img {
 .contact-panel {
   display: grid;
   align-content: center;
+}
+
+.contact-quote {
+  position: relative;
+  margin: 0;
+  max-width: 640px;
+  padding: 24px 0;
+  color: color-mix(in srgb, #a8c7d3 78%, var(--muted));
+}
+
+.contact-quote::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.34;
+}
+
+.contact-quote::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, currentColor, transparent);
+  opacity: 0.2;
+}
+
+.contact-quote blockquote {
+  margin: 0;
+  color: currentColor;
+  font-size: clamp(1.05rem, 1.75vw, 1.55rem);
+  font-weight: 640;
+  line-height: 1.48;
+  letter-spacing: 0;
+}
+
+.contact-quote figcaption {
+  margin-top: 16px;
+  color: currentColor;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: 0.86;
+}
+
+.contact-quote figcaption::before {
+  content: "- ";
 }
 
 .contact-panel h3 {
@@ -1812,6 +2060,14 @@ img {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .recognition-wall {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .human-layer .moodboard {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .projects-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1934,6 +2190,10 @@ img {
     grid-template-columns: 1fr 1fr;
   }
 
+  .human-layer .moodboard {
+    grid-template-columns: 1fr 1fr;
+  }
+
   .mood-card,
   .mood-card:nth-child(1),
   .mood-card:nth-child(3),
@@ -1954,6 +2214,14 @@ img {
   .projects-grid,
   .moodboard,
   .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .human-layer .moodboard {
+    grid-template-columns: 1fr;
+  }
+
+  .recognition-wall {
     grid-template-columns: 1fr;
   }
 
@@ -1980,7 +2248,14 @@ img {
   }
 
   .project-drawer {
+    top: 82px;
+    height: calc(100svh - 82px);
+    border-radius: 20px 0 0 0;
     padding: 20px;
+  }
+
+  .drawer-scrim {
+    inset: 0;
   }
 
   .scroll-cue {

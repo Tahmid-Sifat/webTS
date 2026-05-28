@@ -19,8 +19,8 @@ function render() {
     <main id="main">
       ${HeroSection()}
       ${AboutSection()}
-      ${ProjectsSection()}
       ${ExperienceTimeline()}
+      ${ProjectsSection()}
       ${HobbiesSection()}
       ${ContactSection()}
     </main>
@@ -176,6 +176,51 @@ function setupAboutZoom() {
   update();
   window.addEventListener("scroll", requestUpdate, { passive: true });
   window.addEventListener("resize", requestUpdate);
+}
+
+function setupAboutSubnav() {
+  const links = qsa("[data-about-nav]");
+  if (!links.length) return;
+
+  const blocks = links
+    .map(link => qs(`#${link.dataset.aboutNav}`))
+    .filter(Boolean);
+
+  const setActive = id => {
+    links.forEach(link => {
+      const active = link.dataset.aboutNav === id;
+      link.classList.toggle("is-active", active);
+      if (active) link.setAttribute("aria-current", "location");
+      else link.removeAttribute("aria-current");
+    });
+  };
+
+  const update = () => {
+    const nav = qs(".about-mini-nav");
+    const marker = (nav?.getBoundingClientRect().bottom ?? 0) + 72;
+    let current = blocks[0]?.id;
+    let closestDistance = Number.POSITIVE_INFINITY;
+
+    blocks.forEach(block => {
+      const rect = block.getBoundingClientRect();
+      const containsMarker = rect.top <= marker && rect.bottom > marker;
+      const distance = Math.abs(rect.top - marker);
+
+      if (containsMarker) {
+        current = block.id;
+        closestDistance = 0;
+      } else if (closestDistance !== 0 && distance < closestDistance) {
+        current = block.id;
+        closestDistance = distance;
+      }
+    });
+
+    if (current) setActive(current);
+  };
+
+  update();
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
 }
 
 function setupProgress() {
@@ -551,7 +596,7 @@ function setupAmbientLiveBackground() {
     ctx.fillRect(0, 0, width, height);
 
     ctx.save();
-    ctx.globalAlpha = light ? 0.12 : 0.1;
+    ctx.globalAlpha = light ? 0.18 : 0.1;
     ctx.strokeStyle = `rgba(${colors.line}, 1)`;
     ctx.lineWidth = 0.5;
     for (let i = 0; i < waveCount; i++) {
@@ -581,7 +626,7 @@ function setupAmbientLiveBackground() {
       const pulse = 0.58 + Math.sin(particle.phase + frame * 0.01) * 0.24;
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.r * pulse, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${colors.particle}, ${light ? 0.15 : 0.16})`;
+      ctx.fillStyle = `rgba(${colors.particle}, ${light ? 0.22 : 0.16})`;
       ctx.fill();
 
       if (!coarse && index % 4 === 0) {
@@ -591,7 +636,7 @@ function setupAmbientLiveBackground() {
           ctx.beginPath();
           ctx.moveTo(particle.x, particle.y);
           ctx.lineTo(next.x, next.y);
-          ctx.strokeStyle = `rgba(${colors.line}, ${(1 - distance / 132) * (light ? 0.055 : 0.045)})`;
+          ctx.strokeStyle = `rgba(${colors.line}, ${(1 - distance / 132) * (light ? 0.085 : 0.045)})`;
           ctx.lineWidth = 0.4;
           ctx.stroke();
         }
@@ -622,6 +667,7 @@ setupTheme();
 setupNavigation();
 setupReveal();
 setupAboutZoom();
+setupAboutSubnav();
 setupProgress();
 setupProjects();
 setupContactForm();

@@ -18,11 +18,11 @@ export function AboutSection() {
 
       <div class="about-content">
         <nav class="about-mini-nav reveal" aria-label="About section guide">
-          <a href="#about-summary">Summary</a>
-          <a href="#about-signals">Signals</a>
-          <a href="#about-skills">Skills</a>
-          <a href="#about-recognition">Recognition</a>
-          <a href="#about-philosophy">Philosophy</a>
+          <a class="is-active" href="#about-summary" data-about-nav="about-summary">Summary</a>
+          <a href="#about-signals" data-about-nav="about-signals">Signals</a>
+          <a href="#about-skills" data-about-nav="about-skills">Skills</a>
+          <a href="#about-recognition" data-about-nav="about-recognition">Recognition</a>
+          <a href="#about-philosophy" data-about-nav="about-philosophy">Philosophy</a>
         </nav>
 
         <div class="about-dashboard">
@@ -86,14 +86,16 @@ export function AboutSection() {
         <div class="about-block" id="about-recognition">
           <div class="about-block__header reveal">
             <p class="section-kicker">02.4 / Recognition</p>
-            <h3>Achievements, awards, and moments of momentum.</h3>
+            <h3>A recognition wall of hackathons, university awards, volunteering, science, writing, robotics, and photography.</h3>
           </div>
-          <div class="award-grid">
+          <div class="award-grid recognition-wall">
             ${list(achievements, (item, index) => `
               <article class="glass-card award-card reveal">
-                <span>${String(index + 1).padStart(2, "0")}</span>
-                <h3>${escapeHtml(item.title)}</h3>
-                <p>${escapeHtml(item.detail)}</p>
+                <span class="award-card__number">${String(index + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3>${escapeHtml(item.title)}</h3>
+                  <p>${escapeHtml(item.detail)}</p>
+                </div>
               </article>
             `)}
           </div>

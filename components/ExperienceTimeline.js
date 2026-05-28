@@ -13,7 +13,6 @@ export function ExperienceTimeline() {
             <div class="glass-card timeline-card">
               <div class="timeline-card__top">
                 <span>${item.dates}</span>
-                <span>${item.type}</span>
               </div>
               <h3>${item.role}</h3>
               <p class="timeline-org">${item.organisation} - ${item.location}</p>

@@ -1,10 +1,54 @@
 export const achievements = [
-  { title: "Participated in six hackathons", detail: "Rapid prototyping across AI, web, health, and creative technology." },
-  { title: "Won three hackathons", detail: "Recognised for practical ideas, teamwork, and fast delivery." },
-  { title: "Software innovation recognition at Brunel University", detail: "Recognition for building and presenting software ideas with impact." },
-  { title: "Winner, Royal Holloway Hackathon 2025", detail: "Purrsonal Meowntor web app." },
-  { title: "Finalist, Code For All 2025 Hackathon", detail: "Eli Lilly and Company UK challenge." },
-  { title: "Brunel Volunteers Award 2025", detail: "Recognition for community and volunteering work." },
-  { title: "Climate Science Olympiad recognition", detail: "International finalist and national-level recognition." },
-  { title: "Photography and creative writing awards", detail: "Awards across mobile photography and creative story writing." }
+  {
+    title: "2nd place at A.I. Agent Skills Hack Night",
+    detail: "Hackathon London by Tessl."
+  },
+  {
+    title: "2nd Place Prize and Best of Hillingdon Prize",
+    detail: "Hillingdon Hackathon 2026."
+  },
+  {
+    title: "Brunel Software Innovation Award 2026",
+    detail: "Sponsored by Elanco."
+  },
+  {
+    title: "Finalist, Code For All 2025 Hackathon",
+    detail: "Eli Lilly and Company UK challenge."
+  },
+  {
+    title: "Winner, Royal Holloway Hackathon 2025",
+    detail: "Purrsonal Meowntor web app."
+  },
+  {
+    title: "Brunel Volunteers Award 2025",
+    detail: "Recognised for outstanding volunteering contribution."
+  },
+  {
+    title: "Finalist, Climate Science Olympiad 2021",
+    detail: "International recognition."
+  },
+  {
+    title: "National Winner, BD Climate Science Olympiad 2021",
+    detail: "National-level climate science achievement."
+  },
+  {
+    title: "1st position, Creative Story Writing",
+    detail: "'Break the Fear', 2nd National Competition by SRCCEC."
+  },
+  {
+    title: "1st Runner-up, Robotics Olympiad",
+    detail: "1st ACC Intra Robo Carnival by ACC Robotics Club, 2021."
+  },
+  {
+    title: "2nd place, Mobile Photography",
+    detail: "Gionysus Apokries by LEC, 2020."
+  },
+  {
+    title: "1st place, Photography (Mobile)",
+    detail: "Techno-Science Carnival by BSCA, 2020."
+  },
+  {
+    title: "2nd Runner-up, Sci-fi Story Contest",
+    detail: "3rd National Space Carnival, 2018."
+  }
 ];

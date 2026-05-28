@@ -8,7 +8,10 @@ export function ContactSection() {
       ${sectionHeader("10", "Transmission", "Let&rsquo;s build <span>ideas</span> with purpose", "Send a note, start a collaboration, or open a conversation around a practical idea.")}
       <div class="contact-grid">
         <div class="contact-panel reveal">
-          <h3>Let's Build Something</h3>
+          <figure class="contact-quote">
+            <blockquote>&ldquo;Only those who will risk going too far can possibly find out how far one can go.&rdquo;</blockquote>
+            <figcaption>T. S. Eliot</figcaption>
+          </figure>
           <div class="contact-links">
             ${list(socials, item => `<a href="${item.href}" target="_blank" rel="noreferrer">${item.label}</a>`)}
             <span>Southwark, London, United Kingdom</span>

@@ -6,14 +6,14 @@ export const experiences = [
     location: "London, United Kingdom",
     type: "Internship",
     summary: "Preparing to join SMBC Group in a cybersecurity internship role, bringing together secure thinking, curiosity, and practical software experience.",
-    bullets: ["Building stronger cybersecurity fundamentals", "Connecting software development experience with risk-aware thinking", "Preparing for professional security environments"],
+    bullets: ["Strengthening cybersecurity fundamentals within a financial services environment.", "Applying technical experience to secure thinking, risk awareness, and responsible technology.", "Developing industry-ready skills in communication, teamwork, documentation, and problem-solving."],
     skills: ["Cybersecurity, resillience and governence", "Secure thinking", "Professional practice"],
     link: ""
   },
   {
     role: "Full Stack Developer",
-    organisation: "Brunel Talent Marketplace",
-    dates: "November 2025 - Present",
+    organisation: "Brunel Talent Marketplace ( BTM )",
+    dates: "November 2024 - Present",
     location: "Brunel University London",
     type: "Consultancy",
     summary: "Delivering technical solutions for industry or research projects, mainly using frontend and full-stack technologies to meet client needs.",
@@ -29,7 +29,7 @@ export const experiences = [
     type: "Academic",
     summary: "Supporting labs and tutorials for undergraduate Computer Science students while strengthening teaching, mentoring, and academic communication skills.",
     bullets: ["Supported lab learning and student problem solving", "Helped students connect theory with implementation", "Assisted lecturers with teaching delivery"],
-    skills: ["Mentoring", "Communication", "Computer Science"],
+    skills: ["Mentoring", "Communication", "Presenting"],
     link: ""
   },
   {
@@ -44,6 +44,17 @@ export const experiences = [
     link: ""
   },
   {
+    role: "Student Recruitment and Events Ambassador",
+    organisation: "Brunel University London",
+    dates: "October 2025 - Present",
+    location: "Brunel University London",
+    type: "Campus role",
+    summary: "Representing Brunel University London through recruitment events, campus activities, and outreach programmes, helping prospective students connect with the university experience.",
+    bullets: ["Communicating confidently with students, visitors, and university staff during events and open days.", "Supporting recruitment and outreach activities through organisation, teamwork, and public engagement.", "Strengthening leadership, communication, and people-focused skills in a professional university environment."],
+    skills: ["Recruitment events", "Public engagement", "Communication"],
+    link: ""
+  },
+  {
     role: "Activity Leader",
     organisation: "Twin Group Summer School",
     dates: "July 2025 - August 2025",
@@ -54,28 +65,7 @@ export const experiences = [
     skills: ["Leadership", "Event management", "Operations"],
     link: ""
   },
-  {
-    role: "Consultancy and Team Project Experience",
-    organisation: "Brunel and external project teams",
-    dates: "2024 - Present",
-    location: "London",
-    type: "Project work",
-    summary: "Collaborated on consultancy and technical team projects, balancing delivery, communication, and rapid problem solving.",
-    bullets: ["Worked in multidisciplinary teams", "Presented ideas and technical decisions", "Built practical project outputs under constraints"],
-    skills: ["Consultancy", "Collaboration", "Delivery"],
-    link: ""
-  },
-  {
-    role: "Hackathon Builder",
-    organisation: "Multiple hackathons",
-    dates: "2025 - Present",
-    location: "United Kingdom",
-    type: "Hackathons",
-    summary: "Participated in six hackathons, won three, and received recognition for software innovation at Brunel.",
-    bullets: ["Built fast prototypes under time pressure", "Contributed to LLM, AI, health, and creative technology concepts", "Worked across cross-university teams"],
-    skills: ["Rapid prototyping", "AI", "Team delivery"],
-    link: ""
-  },
+
   {
     role: "Volunteering and Event Coordination",
     organisation: "Multiple organisations",
@@ -88,14 +78,36 @@ export const experiences = [
     link: ""
   },
   {
-    role: "Leadership Roles",
-    organisation: "Student clubs and societies",
-    dates: "2019 - 2023",
-    location: "Bangladesh",
+    role: "Central Club Prefect ",
+    organisation: " Adamjee Cantonment College Mathematics Club ",
+    dates: "Jan 2022 - Jan 2023",
+    location: "Dhaka ",
     type: "Leadership",
-    summary: "Led mathematics and science societies, organising events, workshops, competitions, and junior mentoring.",
-    bullets: ["Founded and led Positron Society of Science", "Served as president and prefect in mathematics clubs", "Managed teams, planning, promotion, and academic activities"],
+    summary: "Led executive committee and supported academic engagement that shaped my leadership capabilities.",
+    bullets: ["Managed administrative tasks while strengthening leadership, teamwork, and communication skills.", " Organised events, and ensured smooth club operations."],
     skills: ["Leadership", "Mentoring", "Event planning"],
+    link: ""
+  },
+  {
+    role: "Founder & President",
+    organisation: "Positron Society of Science",
+    dates: "2020 - 2023",
+    location: "Dhaka",
+    type: "Leadership",
+    summary: "Founded and led a student-focused science society, creating opportunities for younger students to explore science through workshops, events, and interactive learning.",
+    bullets: ["Organised and led science-based workshops, events, and learning sessions for school students.", "Managed event planning, member coordination, and society operations to keep activities running smoothly.", "Promoted events through social media and community engagement, increasing participation and visibility."],
+    skills: ["Leadership", "Science outreach", "Event management"],
+    link: ""
+  },
+  {
+    role: "President",
+    organisation: "Adamjee Cantonment Public School Club of Mathematics",
+    dates: "2019 - 2020",
+    location: "Dhaka",
+    type: "Leadership",
+    summary: "Led the school mathematics club, coordinating activities, resources, and events to support student learning and engagement in mathematics.",
+    bullets: ["Worked with school authority to coordinate budgets, resources, schedules, and event planning.", "Oversaw the executive committee to ensure smooth operations and successful delivery of club activities.", "Strengthened leadership, organisation, teamwork, and communication through student-led academic initiatives."],
+    skills: ["Leadership", "Organisation", "Teamwork"],
     link: ""
   }
 ];

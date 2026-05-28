@@ -4,8 +4,8 @@ import { html, list } from "../lib/dom.js";
 const links = [
   ["origin", "Origin"],
   ["about", "About"],
-  ["projects", "Projects"],
   ["experience", "Experience"],
+  ["projects", "Projects"],
   ["hobbies", "Human Layer"],
   ["contact", "Contact"]
 ];
