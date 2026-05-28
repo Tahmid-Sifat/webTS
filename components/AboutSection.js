@@ -11,7 +11,7 @@ export function AboutSection() {
       <div class="about-cinematic" aria-label="About introduction">
         <div class="about-zoom-sticky">
           <p class="section-kicker">02 / ABOUT ME</p>
-          <h2 class="about-zoom-title">A personal system for building, learning, and exploring.</h2>
+          <h2 class="about-zoom-title">A personal system for building, learning, and <span>exploring</span>.</h2>
           <p class="about-zoom-copy">More than a CV section: this is the story behind the work.</p>
         </div>
       </div>

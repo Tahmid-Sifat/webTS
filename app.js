@@ -154,13 +154,13 @@ function setupAboutZoom() {
     const progress = clamp(-rect.top / zoomDistance);
     const eased = smoothstep(progress);
     const isMobile = window.matchMedia("(max-width: 720px)").matches;
-    const maxScale = isMobile ? 1.42 : 1.88;
+    const maxScale = isMobile ? 1.48 : 2.04;
     const scale = 1 + eased * (maxScale - 1);
-    const titleFade = clamp((progress - 0.62) / 0.38);
-    const contentProgress = clamp((progress - 0.74) / 0.22);
+    const titleFade = clamp((progress - 0.84) / 0.16);
+    const contentProgress = clamp((progress - 0.82) / 0.17);
 
     section.style.setProperty("--about-zoom-scale", scale.toFixed(3));
-    section.style.setProperty("--about-zoom-y", `${(-window.innerHeight * (isMobile ? 0.055 : 0.115) * eased).toFixed(1)}px`);
+    section.style.setProperty("--about-zoom-y", `${(-window.innerHeight * (isMobile ? 0.042 : 0.07) * eased).toFixed(1)}px`);
     section.style.setProperty("--about-zoom-opacity", (1 - titleFade).toFixed(3));
     section.style.setProperty("--about-zoom-blur", `${(titleFade * (isMobile ? 4 : 10)).toFixed(2)}px`);
     section.style.setProperty("--about-content-opacity", smoothstep(contentProgress).toFixed(3));
@@ -377,6 +377,8 @@ function setupFluidCometCursor() {
   ].join(",");
   let fluidStarted = false;
   let fluidReady = false;
+  let pointerSamples = 0;
+  let lastPointer = null;
 
   const startFluid = () => {
     if (fluidStarted) return;
@@ -402,8 +404,7 @@ function setupFluidCometCursor() {
         });
         window.setTimeout(() => {
           fluidReady = true;
-          container.classList.add("has-fluid-input");
-        }, 420);
+        }, 900);
       })
       .catch(error => {
         console.warn("Fluid cursor failed to load.", error);
@@ -412,7 +413,16 @@ function setupFluidCometCursor() {
 
   const syncFluidState = event => {
     if (event) startFluid();
-    if (event && fluidReady) container.classList.add("has-fluid-input");
+    if (event && fluidReady) {
+      if (lastPointer) {
+        const distance = Math.hypot(event.clientX - lastPointer.x, event.clientY - lastPointer.y);
+        if (distance > 2 && distance < Math.max(window.innerWidth, window.innerHeight) * 0.24) {
+          pointerSamples += 1;
+        }
+      }
+      lastPointer = { x: event.clientX, y: event.clientY };
+      if (pointerSamples >= 5) container.classList.add("has-fluid-input");
+    }
     const target = event ? document.elementFromPoint(event.clientX, event.clientY) : null;
     const readable = Boolean(target?.closest(readableSelector));
     container.classList.toggle("is-readable-hover", readable);

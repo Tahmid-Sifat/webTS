@@ -930,10 +930,10 @@ img {
 }
 
 .about-cinematic {
-  min-height: 178svh;
+  min-height: 252svh;
   display: grid;
   align-items: start;
-  margin-bottom: clamp(14px, 4vw, 52px);
+  margin-bottom: clamp(4px, 2vw, 28px);
 }
 
 .about-zoom-sticky {
@@ -960,6 +960,11 @@ img {
   opacity: var(--about-zoom-opacity);
   filter: blur(var(--about-zoom-blur));
   will-change: transform, opacity, filter;
+}
+
+.about-zoom-title span {
+  color: var(--accent);
+  text-shadow: 0 0 34px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 .about-zoom-copy {
@@ -1893,7 +1898,7 @@ img {
   }
 
   .about-cinematic {
-    min-height: 150svh;
+    min-height: 204svh;
     margin-bottom: 34px;
   }
 
@@ -1983,7 +1988,7 @@ img {
   }
 
   .about-cinematic {
-    min-height: 130svh;
+    min-height: 168svh;
     margin-bottom: 44px;
   }
 
