@@ -1498,6 +1498,18 @@ img {
   flex-wrap: wrap;
 }
 
+.drawer-actions--top {
+  justify-content: flex-end;
+  margin-top: -6px;
+}
+
+.drawer-actions .btn {
+  min-height: 34px;
+  width: auto;
+  padding: 8px 14px;
+  font-size: 0.82rem;
+}
+
 .timeline {
   position: relative;
   display: grid;
@@ -1889,6 +1901,10 @@ img {
 
 .contact-quote figcaption::before {
   content: "- ";
+}
+
+[data-theme="light"] .contact-quote {
+  color: color-mix(in srgb, var(--accent-strong) 76%, var(--neutral));
 }
 
 .contact-panel h3 {

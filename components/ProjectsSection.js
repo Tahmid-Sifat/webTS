@@ -49,8 +49,11 @@ export function drawerTemplate(project) {
       <p class="section-kicker">Case study / ${escapeHtml(project.year)}</p>
       <h2>${escapeHtml(project.title)}</h2>
       <p class="drawer-lead">${escapeHtml(project.description)}</p>
+      <div class="drawer-actions drawer-actions--top">
+        ${project.github ? `<a class="btn btn--primary" href="${escapeHtml(project.github)}" target="_blank" rel="noreferrer">GitHub</a>` : ""}
+        ${project.demo ? `<a class="btn btn--ghost" href="${escapeHtml(project.demo)}" target="_blank" rel="noreferrer">Demo / Docs</a>` : ""}
+      </div>
       <div class="drawer-meta">
-        <span>${escapeHtml(project.role)}</span>
         <span>${escapeHtml(project.status)}</span>
       </div>
       <div class="drawer-block">
@@ -70,10 +73,6 @@ export function drawerTemplate(project) {
         <p>${escapeHtml(project.impact)}</p>
       </div>
       <div class="tag-cloud">${list(project.techStack, tag)}</div>
-      <div class="drawer-actions">
-        ${project.github ? `<a class="btn btn--primary" href="${escapeHtml(project.github)}" target="_blank" rel="noreferrer">GitHub</a>` : ""}
-        ${project.demo ? `<a class="btn btn--ghost" href="${escapeHtml(project.demo)}" target="_blank" rel="noreferrer">Demo / Docs</a>` : ""}
-      </div>
     </div>
   `;
 }

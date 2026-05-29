@@ -13,6 +13,6 @@ export const highlights = [
   "Leadership, teamwork, communication, collaboration, and adaptability",
   "Interests across cybersecurity, robotics, LLMs, web development, AI agents, and emerging technologies",
   "Active in sports , plays Badminton ( main sport ) , target shooting , table tennis , fencing , swimming ",
-  "Travelled 19 countries and still counting",
+  "Travelled 22 countries and still counting",
   "Active member in Photography society , plays guitar "
 ];
