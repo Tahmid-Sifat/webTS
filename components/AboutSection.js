@@ -56,7 +56,7 @@ export function AboutSection() {
         <div class="about-block" id="about-signals">
           <div class="about-block__header reveal">
             <p class="section-kicker">02.2 / Quick Signals</p>
-            <h3>Signals recruiters can scan quickly.</h3>
+            <h3>At a glance.</h3>
           </div>
           <div class="highlight-grid">
             ${list(highlights, (item, index) => `
