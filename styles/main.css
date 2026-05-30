@@ -2311,6 +2311,24 @@ img {
 }
 
 @media (max-width: 620px) {
+  html,
+  body,
+  #main {
+    touch-action: pan-y;
+    overscroll-behavior-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  html,
+  body {
+    overflow-y: auto;
+  }
+
+  .site-liquid,
+  .site-liquid canvas {
+    pointer-events: none;
+  }
+
   .site-liquid.has-touch-fluid .fluid-cursor-canvas {
     opacity: 0.42;
   }

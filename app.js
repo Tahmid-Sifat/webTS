@@ -524,6 +524,7 @@ function setupFluidCometCursor() {
   let pointerSamples = 0;
   let lastPointer = null;
   let touchFluidVisible = false;
+  let touchStart = null;
 
   const showTouchFluid = () => {
     if (!mobileLike || touchFluidVisible) return;
@@ -592,12 +593,35 @@ function setupFluidCometCursor() {
     });
   };
 
+  const withScrollSafeTouchListeners = callback => {
+    if (!mobileLike) return callback();
+
+    const originalAddEventListener = EventTarget.prototype.addEventListener;
+    EventTarget.prototype.addEventListener = function scrollSafeAddEventListener(type, listener, options) {
+      if (type === "touchstart" || type === "touchmove") {
+        const safeOptions = typeof options === "object"
+          ? { ...options, passive: true }
+          : { capture: Boolean(options), passive: true };
+
+        return originalAddEventListener.call(this, type, listener, safeOptions);
+      }
+
+      return originalAddEventListener.call(this, type, listener, options);
+    };
+
+    try {
+      return callback();
+    } finally {
+      EventTarget.prototype.addEventListener = originalAddEventListener;
+    }
+  };
+
   const startFluid = () => {
     if (fluidStarted) return;
     fluidStarted = true;
     import("https://cdn.jsdelivr.net/npm/smokey-fluid-cursor@1.0.7/dist/index.mjs")
       .then(({ initFluid }) => {
-        initFluid({
+        withScrollSafeTouchListeners(() => initFluid({
           id: "siteLiquidCanvas",
           simResolution: mobileLike ? 80 : 160,
           dyeResolution: mobileLike ? 256 : 768,
@@ -613,7 +637,7 @@ function setupFluidCometCursor() {
           colorUpdateSpeed: 0.035,
           transparent: true,
           backColor: { r: 0, g: 0, b: 0 }
-        });
+        }));
         dispatchFluidWarmup();
         window.setTimeout(() => {
           fluidReady = true;
@@ -649,6 +673,11 @@ function setupFluidCometCursor() {
   const syncTouchFluid = event => {
     const touch = event.touches?.[0];
     if (!touch) return;
+    if (!touchStart) touchStart = { x: touch.clientX, y: touch.clientY };
+    const deltaX = touch.clientX - touchStart.x;
+    const deltaY = touch.clientY - touchStart.y;
+    if (Math.abs(deltaY) > 8 && Math.abs(deltaY) > Math.abs(deltaX)) return;
+
     startFluid();
     showTouchFluid();
     dispatchFluidInput(touch.clientX, touch.clientY, "touch");
@@ -662,7 +691,17 @@ function setupFluidCometCursor() {
   window.addEventListener("pointermove", syncFluidState, { passive: true });
   window.addEventListener("pointerdown", syncFluidState, { passive: true });
   window.addEventListener("touchmove", syncTouchFluid, { passive: true });
-  window.addEventListener("touchstart", syncTouchFluid, { passive: true });
+  window.addEventListener("touchstart", event => {
+    const touch = event.touches?.[0];
+    touchStart = touch ? { x: touch.clientX, y: touch.clientY } : null;
+    syncTouchFluid(event);
+  }, { passive: true });
+  window.addEventListener("touchend", () => {
+    touchStart = null;
+  }, { passive: true });
+  window.addEventListener("touchcancel", () => {
+    touchStart = null;
+  }, { passive: true });
   if (mobileLike) {
     window.addEventListener("scroll", () => {
       startFluid();
