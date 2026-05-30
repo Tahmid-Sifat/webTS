@@ -599,7 +599,8 @@ img {
   border-radius: 999px;
   font-size: 0.9rem;
   font-weight: 760;
-  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease;
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .btn--primary {
@@ -619,8 +620,13 @@ img {
 
 .btn:hover,
 .btn:focus-visible {
+  transform: translateY(-2px);
   border-color: var(--accent);
   box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.btn:active {
+  transform: translateY(0) scale(0.98);
 }
 
 [data-theme="light"] .btn:hover,
@@ -1553,10 +1559,36 @@ img {
   font-size: 0.78rem;
   font-weight: 850;
   box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 16%, transparent);
+  transition:
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.34s ease,
+    background 0.34s ease,
+    box-shadow 0.34s ease;
 }
 
 .timeline-card {
   padding: 24px;
+  transition:
+    transform 0.34s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.34s ease,
+    box-shadow 0.34s ease,
+    background 0.34s ease;
+}
+
+.timeline-item:hover .timeline-card,
+.timeline-item:focus-within .timeline-card {
+  transform: translate3d(8px, -4px, 0);
+  border-color: color-mix(in srgb, var(--accent) 34%, var(--line));
+  background: color-mix(in srgb, var(--surface-strong) 76%, transparent);
+  box-shadow: var(--shadow), 0 0 34px color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.timeline-item:hover .timeline-node,
+.timeline-item:focus-within .timeline-node {
+  transform: scale(1.06);
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, var(--bg-soft));
+  box-shadow: 0 0 30px color-mix(in srgb, var(--accent) 24%, transparent);
 }
 
 .timeline-card__top {
@@ -1951,6 +1983,15 @@ img {
 
 .contact-form textarea {
   margin-bottom: 12px;
+}
+
+.contact-form .btn--primary:hover,
+.contact-form .btn--primary:focus-visible {
+  transform: translateY(-3px) scale(1.012);
+  background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+  box-shadow:
+    0 18px 46px color-mix(in srgb, var(--accent) 22%, transparent),
+    0 0 26px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 [data-theme="light"] .contact-form input::placeholder,

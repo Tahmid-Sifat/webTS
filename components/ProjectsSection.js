@@ -5,7 +5,7 @@ import { escapeHtml, html, list } from "../lib/dom.js";
 export function ProjectsSection() {
   return html`
     <section id="projects" class="section-shell" data-section>
-      ${sectionHeader("05", "Selected Projects", "Built ideas, prototypes, and systems.", "Each project here started as an idea and became something practical through curiosity and execution.")}
+      ${sectionHeader("05", "Selected Projects", "Built ideas, prototypes, and systems.", "Each project here started as an idea and became something practical through curiosity and execution. Click to view details!")}
       <div class="projects-grid" id="projectsGrid">
         ${list(projects, projectCard)}
       </div>
