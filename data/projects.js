@@ -119,7 +119,7 @@ export const projects = [
     description: "An AI-powered parking notice action agent that helps users understand, challenge, and manage parking fines or parking charge notices through a structured workflow.",
     techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "OCR", "RAG", "Agentic AI", "ICS"],
     year: "2026",
-    status: "Hackathon prototype",
+    status: "In Progress",
     github: "",
     demo: "",
     image: "images/cpr_parkpal.jpg",

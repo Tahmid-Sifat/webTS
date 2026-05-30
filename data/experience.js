@@ -69,7 +69,7 @@ export const experiences = [
   {
     role: "Volunteering and Event Coordination",
     organisation: "Multiple organisations",
-    dates: "2024 - Present",
+    dates: "2024 - 2025",
     location: "London",
     type: "Volunteering",
     summary: "Supported community, youth, football, library, and fundraising events with logistics, registration, safety, and participant engagement.",
