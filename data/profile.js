@@ -8,10 +8,10 @@ export const profile = {
   photo: "images/tsMain.png",
   cv: "Files/CV of Tahmid Al Sifat NS.pdf",
   heroSentence: "This is not just my portfolio. This is my digital space to explore beyond limits, build with curiosity, and turn imagination into real, working experiences.",
-  identityLine: "BSc Computer Science Student ( Year 2 ) - Cyber Security Intern Associate at SMBC group - Full Stack Dev - Teaching Assistant - Student Ambassador",
+  identityLine: "BSc Computer Science Student ( Year 2 ) - incoming Cyber Security Intern Associate at SMBC group - Full Stack Dev - Teaching Assistant - Student Ambassador",
   intro: "I build practical web systems, experiment with emerging technologies, compete in hackathons, and explore life through travel, sports, creativity, and curiosity.",
   about: [
-    "I'm a growth-driven Computer Science student at Brunel University London, having completed my second year and preparing to join SMBC Group as a Cybersecurity Intern Associate. My interests sit across full-stack development, AI-driven applications, cybersecurity, robotics, and creative technology.",
+    "I’m Tahmid Al Sifat, a curious learner and creative builder who enjoys exploring new ideas, working with people, and bringing meaningful projects to life.",
     "I'm someone who enjoys exploring beyond limits, whether that means building a new project, joining a hackathon, learning a new tool, travelling somewhere new, or stepping into a challenge I have never tried before. I like turning ideas into real things, from shaping the user experience to building the logic behind it.",
     "Over the past few years, I have worked on full-stack applications, agentic AI tools, LLM-based systems, robotics projects, consultancy work, and hackathon prototypes. I have taken part in multiple hackathons, won three, and received recognition for software innovation at my university. These experiences have taught me to build quickly, think practically, work with people, and focus on impact.",
     "Outside technology, I'm outgoing, curious, and people-focused. I enjoy teamwork, leadership, good conversations, food, travel, photography, movies, music, and sports. Badminton is my main sport, but I also enjoy target shooting, fencing, cycling, swimming, and playing guitar."

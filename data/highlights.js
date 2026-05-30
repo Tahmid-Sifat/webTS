@@ -1,6 +1,6 @@
 export const highlights = [
   "Computer Science student at Brunel University London, completed second year",
-  "Preparing to join SMBC Group as a Cybersecurity Intern Associate",
+  "Proven academic excellence records",
   "Builds full-stack, web, backend, AI, robotics, and creative technology projects",
   "Works with React, TypeScript, JavaScript, Tailwind CSS, Java, Spring Boot, SQL, PostgreSQL, Supabase, and MongoDB",
   "Explores AI-driven applications, LLM tools, agentic systems, and RAG prototypes",
@@ -12,7 +12,7 @@ export const highlights = [
   "Six hackathons, three wins, and software innovation recognition at Brunel",
   "Leadership, teamwork, communication, collaboration, and adaptability",
   "Interests across cybersecurity, robotics, LLMs, web development, AI agents, and emerging technologies",
-  "Active in sports , plays Badminton ( main sport ) , target shooting , table tennis , fencing , swimming ",
-  "Travelled 22 countries and still counting",
+  "Active in sports , plays in University's Badminton and Target Shooting Team  ",
+  "Worked with children , trained in safeguarding ",
   "Active member in Photography society , plays guitar "
 ];

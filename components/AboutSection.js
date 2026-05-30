@@ -38,8 +38,8 @@ export function AboutSection() {
             <aside class="about-side about-panel--identity">
               <div class="glass-card identity-card reveal">
                 <span>Current direction</span>
-                <strong>Cybersecurity Intern Associate preparation at SMBC Group</strong>
-                <p>Blending professional experience, leadership, technical competence, and secure software thinking.</p>
+                <strong>Bachelors of Computer Science at Brunel University London</strong>
+                <p>Completed 2nd year , preparing to join industrial placement year.</p>
               </div>
               <div class="stats-grid">
                 ${list(profile.stats, item => `
