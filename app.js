@@ -89,7 +89,7 @@ function setupReveal() {
     ".contact-panel",
     ".contact-form",
     ".philosophy-card",
-    ".filter-row"
+    ".projects-grid"
   ].join(",");
 
   qsa("[data-section]").forEach(section => {
@@ -152,16 +152,17 @@ function setupAboutZoom() {
     ticking = false;
     const rect = stage.getBoundingClientRect();
     const isMobile = window.matchMedia("(max-width: 720px)").matches;
-    const zoomDistance = Math.max(1, stage.offsetHeight - (isMobile ? sticky.offsetHeight : window.innerHeight));
-    const progress = clamp(-rect.top / zoomDistance);
+    const mobileLead = isMobile ? window.innerHeight * 0.16 : 0;
+    const zoomDistance = Math.max(1, isMobile ? stage.offsetHeight * 0.9 : stage.offsetHeight - window.innerHeight);
+    const progress = clamp((-rect.top + mobileLead) / zoomDistance);
     const eased = smoothstep(progress);
     const maxScale = isMobile ? 1.62 : 2.04;
     const scale = 1 + eased * (maxScale - 1);
     const titleFade = clamp((progress - (isMobile ? 0.96 : 0.84)) / (isMobile ? 0.04 : 0.16));
-    const contentProgress = clamp((progress - (isMobile ? 0.76 : 0.82)) / (isMobile ? 0.2 : 0.17));
+    const contentProgress = clamp((progress - (isMobile ? 0.62 : 0.82)) / (isMobile ? 0.28 : 0.17));
 
     section.style.setProperty("--about-zoom-scale", scale.toFixed(3));
-    const zoomY = window.innerHeight * (isMobile ? 0.34 : -0.07) * eased;
+    const zoomY = window.innerHeight * (isMobile ? 0.48 : -0.07) * eased;
     section.style.setProperty("--about-zoom-y", `${zoomY.toFixed(1)}px`);
     section.style.setProperty("--about-zoom-opacity", (1 - titleFade).toFixed(3));
     section.style.setProperty("--about-zoom-blur", `${(titleFade * (isMobile ? 4 : 10)).toFixed(2)}px`);
@@ -264,18 +265,6 @@ function setupProjects() {
     scrim.hidden = true;
     document.body.classList.remove("drawer-open");
   };
-
-  qsa(".filter-pill").forEach(button => {
-    button.addEventListener("click", () => {
-      qsa(".filter-pill").forEach(item => item.classList.remove("is-active"));
-      button.classList.add("is-active");
-      const filter = button.dataset.filter;
-      qsa(".project-card", grid).forEach(card => {
-        const categories = card.dataset.categories.split(",");
-        card.hidden = filter !== "All" && !categories.includes(filter);
-      });
-    });
-  });
 
   grid?.addEventListener("click", event => {
     const card = event.target.closest("[data-project]");
@@ -514,7 +503,6 @@ function setupFluidCometCursor() {
     ".philosophy-card",
     ".contact-panel",
     ".contact-form",
-    ".filter-pill",
     ".section-heading",
     ".hero-copy",
     ".about-copy",

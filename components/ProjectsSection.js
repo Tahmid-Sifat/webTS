@@ -1,14 +1,11 @@
-import { projectCategories, projects } from "../data/projects.js";
+import { projects } from "../data/projects.js";
 import { sectionHeader, tag } from "./ui.js";
 import { escapeHtml, html, list } from "../lib/dom.js";
 
 export function ProjectsSection() {
   return html`
     <section id="projects" class="section-shell" data-section>
-      ${sectionHeader("05", "Selected Projects", "Built ideas, prototypes, and systems.", "Filter the collection, then open a case study drawer for the problem, solution, stack, and impact.")}
-      <div class="filter-row reveal" role="tablist" aria-label="Project filters">
-        ${list(projectCategories, category => `<button class="filter-pill ${category === "All" ? "is-active" : ""}" type="button" data-filter="${category}">${category}</button>`)}
-      </div>
+      ${sectionHeader("05", "Selected Projects", "Built ideas, prototypes, and systems.", "Each project here started as an idea and became something practical through curiosity and execution.")}
       <div class="projects-grid" id="projectsGrid">
         ${list(projects, projectCard)}
       </div>
@@ -22,9 +19,8 @@ export function ProjectsSection() {
 }
 
 function projectCard(project, index) {
-  const categories = project.category.join(",");
   return html`
-    <article class="project-card reveal" data-categories="${escapeHtml(categories)}" data-project="${escapeHtml(project.slug)}">
+    <article class="project-card reveal" data-project="${escapeHtml(project.slug)}">
       <button class="project-card__button" type="button" aria-label="Open ${escapeHtml(project.title)} case study">
         <div class="project-card__visual ${project.image ? "" : "project-card__visual--empty"}">
           ${project.image ? `<img src="${escapeHtml(project.image)}" alt="" loading="lazy">` : `<span>${escapeHtml(project.title.slice(0, 2))}</span>`}

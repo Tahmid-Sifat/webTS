@@ -1,5 +1,3 @@
-export const projectCategories = ["All", "Web", "AI", "Robotics", "Cybersecurity", "Hackathon", "Research", "Java", "Full-stack"];
-
 export const projects = [
 
   {
@@ -117,18 +115,28 @@ export const projects = [
   {
     title: "ParkPal",
     slug: "parkpal",
-    category: ["Web", "Full-stack"],
-    description: "A parking helper concept designed around simple location, availability, and decision support.",
-    techStack: ["React", "Maps", "APIs", "Database"],
+    category: ["AI", "Web", "Hackathon", "Full-stack"],
+    description: "An AI-powered parking notice action agent that helps users understand, challenge, and manage parking fines or parking charge notices through a structured workflow.",
+    techStack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Node.js", "Express", "OCR", "RAG", "Agentic AI", "ICS"],
     year: "2026",
-    status: "Concept",
+    status: "Hackathon prototype",
     github: "",
     demo: "",
     image: "images/cpr_parkpal.jpg",
-    problem: "Parking decisions are often made with incomplete or poorly presented information.",
-    solution: "A lightweight interface for location-first parking discovery and comparison.",
-    features: ["Map interface", "Availability-style cards", "Mobile-first layout"],
-    impact: "A practical civic-tech style project direction."
+    problem: "Parking notices are confusing, stressful, and time-sensitive. Many users struggle to identify the notice type, understand deadlines, decide whether to pay or challenge, gather evidence, and write a strong appeal.",
+    solution: "ParkPal reads a parking notice, extracts key details, classifies the notice route, detects deadlines, suggests possible appeal grounds, creates an evidence checklist, generates calendar reminders, and drafts a calm evidence-backed appeal.",
+    features: [
+      "Upload or paste a parking notice with OCR and text extraction",
+      "Notice classification for council PCNs, private parking charges, Notice to Keeper letters, debt collector letters, and scam-like notices",
+      "Deadline detection with timeline generation and calendar reminder export",
+      "RAG-backed parking challenge guidance from curated sources",
+      "Appeal grounds matching for signage, payment, grace period, ANPR, permit, accessibility, and keeper issues",
+      "Evidence checklist for receipts, signage photos, permits, Blue Badge proof, app screenshots, and correspondence",
+      "AI-generated appeal letter and PDF-style appeal pack",
+      "Rejection letter escalation mode with next-step guidance",
+      "Risk guard checks for unsupported claims, aggressive wording, missing evidence, deadline risks, and cases needing human review"
+    ],
+    impact: "Shows how agentic AI can turn intimidating parking paperwork into a clear, deadline-aware action plan while staying transparent as a demo prototype, not a replacement for legal advice."
   },
   {
     title: "Portfolio 2.0",
