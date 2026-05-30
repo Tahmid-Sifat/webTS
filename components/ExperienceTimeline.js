@@ -5,7 +5,7 @@ import { html, list } from "../lib/dom.js";
 export function ExperienceTimeline() {
   return html`
     <section id="experience" class="section-shell" data-section>
-      ${sectionHeader("06", "Experience Journey", "Professional evolution through technical leadership.", "A timeline of upcoming cybersecurity work, technical delivery, teaching, leadership, hackathons, and community experience.")}
+      ${sectionHeader("06", "Experience Journey", "A journey of professional growth through technology, leadership, and hands-on impact.")}
       <div class="timeline">
         ${list(experiences, (item, index) => `
           <article class="timeline-item reveal">

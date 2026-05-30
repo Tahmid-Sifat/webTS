@@ -86,7 +86,7 @@ export function AboutSection() {
         <div class="about-block" id="about-recognition">
           <div class="about-block__header reveal">
             <p class="section-kicker">02.4 / Recognition</p>
-            <h3>A recognition wall of hackathons, university awards, volunteering, science, writing, robotics, and photography.</h3>
+            <h3>A space dedicated to the milestones that shaped my journey, from hackathons and university awards to volunteering, robotics, writing, and photography.</h3>
           </div>
           <div class="award-grid recognition-wall">
             ${list(achievements, (item, index) => `

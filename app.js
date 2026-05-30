@@ -125,9 +125,10 @@ function setupReveal() {
 function setupAboutZoom() {
   const section = qs(".about-journey");
   const stage = qs(".about-cinematic", section);
+  const sticky = qs(".about-zoom-sticky", section);
   const title = qs(".about-zoom-title", section);
   const content = qs(".about-content", section);
-  if (!section || !stage || !title || !content) return;
+  if (!section || !stage || !sticky || !title || !content) return;
 
   const setStaticState = () => {
     section.style.setProperty("--about-zoom-scale", "1");
@@ -150,17 +151,18 @@ function setupAboutZoom() {
   const update = () => {
     ticking = false;
     const rect = stage.getBoundingClientRect();
-    const zoomDistance = Math.max(1, stage.offsetHeight - window.innerHeight);
+    const isMobile = window.matchMedia("(max-width: 720px)").matches;
+    const zoomDistance = Math.max(1, stage.offsetHeight - (isMobile ? sticky.offsetHeight : window.innerHeight));
     const progress = clamp(-rect.top / zoomDistance);
     const eased = smoothstep(progress);
-    const isMobile = window.matchMedia("(max-width: 720px)").matches;
-    const maxScale = isMobile ? 1.48 : 2.04;
+    const maxScale = isMobile ? 1.62 : 2.04;
     const scale = 1 + eased * (maxScale - 1);
-    const titleFade = clamp((progress - 0.84) / 0.16);
-    const contentProgress = clamp((progress - 0.82) / 0.17);
+    const titleFade = clamp((progress - (isMobile ? 0.96 : 0.84)) / (isMobile ? 0.04 : 0.16));
+    const contentProgress = clamp((progress - (isMobile ? 0.76 : 0.82)) / (isMobile ? 0.2 : 0.17));
 
     section.style.setProperty("--about-zoom-scale", scale.toFixed(3));
-    section.style.setProperty("--about-zoom-y", `${(-window.innerHeight * (isMobile ? 0.042 : 0.07) * eased).toFixed(1)}px`);
+    const zoomY = window.innerHeight * (isMobile ? 0.34 : -0.07) * eased;
+    section.style.setProperty("--about-zoom-y", `${zoomY.toFixed(1)}px`);
     section.style.setProperty("--about-zoom-opacity", (1 - titleFade).toFixed(3));
     section.style.setProperty("--about-zoom-blur", `${(titleFade * (isMobile ? 4 : 10)).toFixed(2)}px`);
     section.style.setProperty("--about-content-opacity", smoothstep(contentProgress).toFixed(3));
@@ -225,12 +227,16 @@ function setupAboutSubnav() {
 
 function setupProgress() {
   const progress = qs("#scrollProgress");
-  window.addEventListener("scroll", () => {
-    const max = document.documentElement.scrollHeight - window.innerHeight;
-    const ratio = max > 0 ? window.scrollY / max : 0;
+  const updateProgress = () => {
+    const root = document.documentElement;
+    const max = root.scrollHeight - root.clientHeight;
+    const ratio = max > 0 ? root.scrollTop / max : 0;
     progress.style.transform = `scaleX(${ratio})`;
     qs("#siteHeader")?.classList.toggle("is-scrolled", window.scrollY > 24);
-  }, { passive: true });
+  };
+  updateProgress();
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  window.addEventListener("resize", updateProgress);
 }
 
 function setupProjects() {
@@ -238,6 +244,21 @@ function setupProjects() {
   const drawer = qs("#projectDrawer");
   const content = qs("#drawerContent");
   const scrim = qs("#drawerScrim");
+  const mobileQuery = window.matchMedia("(max-width: 620px)");
+
+  if (mobileQuery.matches && drawer && scrim && drawer.parentElement !== document.body) {
+    document.body.append(scrim, drawer);
+  }
+
+  const resetDrawerScroll = () => {
+    if (!drawer || !content) return;
+    drawer.scrollTop = 0;
+    drawer.scrollLeft = 0;
+    content.scrollTop = 0;
+    content.scrollLeft = 0;
+    drawer.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  };
+
   const close = () => {
     drawer?.setAttribute("aria-hidden", "true");
     scrim.hidden = true;
@@ -265,6 +286,9 @@ function setupProjects() {
     drawer.setAttribute("aria-hidden", "false");
     scrim.hidden = false;
     document.body.classList.add("drawer-open");
+    resetDrawerScroll();
+    requestAnimationFrame(resetDrawerScroll);
+    window.setTimeout(resetDrawerScroll, 0);
   });
 
   qs("#drawerClose")?.addEventListener("click", close);
@@ -313,18 +337,55 @@ function setupMagnetic() {
 }
 
 function setupCardLight() {
-  if (window.matchMedia("(pointer: coarse)").matches) return;
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const mobileLike = coarse || window.matchMedia("(max-width: 620px)").matches;
   qsa(".glass-card, .project-card__button").forEach(card => {
-    card.addEventListener("mousemove", event => {
+    const setLightPosition = (clientX, clientY) => {
       const rect = card.getBoundingClientRect();
-      card.style.setProperty("--card-x", `${event.clientX - rect.left}px`);
-      card.style.setProperty("--card-y", `${event.clientY - rect.top}px`);
-    });
+      card.style.setProperty("--card-x", `${clientX - rect.left}px`);
+      card.style.setProperty("--card-y", `${clientY - rect.top}px`);
+    };
+
+    if (mobileLike) {
+      const activateCard = (clientX, clientY) => {
+        setLightPosition(clientX, clientY);
+        card.classList.add("is-touch-active");
+      };
+
+      card.addEventListener("pointerdown", event => {
+        activateCard(event.clientX, event.clientY);
+      }, { passive: true });
+
+      card.addEventListener("pointerup", () => {
+        window.setTimeout(() => card.classList.remove("is-touch-active"), 180);
+      }, { passive: true });
+
+      card.addEventListener("touchstart", event => {
+        const touch = event.touches?.[0];
+        if (!touch) return;
+        activateCard(touch.clientX, touch.clientY);
+      }, { passive: true });
+
+      card.addEventListener("touchmove", event => {
+        const touch = event.touches?.[0];
+        if (!touch) return;
+        setLightPosition(touch.clientX, touch.clientY);
+      }, { passive: true });
+
+      card.addEventListener("touchend", () => {
+        window.setTimeout(() => card.classList.remove("is-touch-active"), 180);
+      }, { passive: true });
+      return;
+    }
+
+    card.addEventListener("mousemove", event => setLightPosition(event.clientX, event.clientY));
   });
 }
 
 function setupPortraitInteraction() {
-  if (prefersReducedMotion || window.matchMedia("(pointer: coarse)").matches) return;
+  if (prefersReducedMotion) return;
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const mobileLike = coarse || window.matchMedia("(max-width: 620px)").matches;
   qsa("[data-portrait-card]").forEach(card => {
     let frameId = 0;
     const state = {
@@ -377,6 +438,52 @@ function setupPortraitInteraction() {
       card.classList.remove("is-hovered");
       schedule();
     });
+
+    if (mobileLike) {
+      const activatePortrait = (clientX, clientY) => {
+        const rect = card.getBoundingClientRect();
+        const px = (clientX - rect.left) / rect.width;
+        const py = (clientY - rect.top) / rect.height;
+        state.rotateX = (py - 0.5) * -3;
+        state.rotateY = (px - 0.5) * 3.5;
+        state.imageX = (px - 0.5) * 5;
+        state.imageY = (py - 0.5) * 5;
+        state.sheenX = px * 100;
+        state.sheenY = py * 100;
+        card.classList.add("is-hovered");
+        schedule();
+      };
+
+      const resetPortrait = () => {
+        window.setTimeout(() => {
+          state.rotateX = 0;
+          state.rotateY = 0;
+          state.imageX = 0;
+          state.imageY = 0;
+          state.sheenX = 50;
+          state.sheenY = 50;
+          card.classList.remove("is-hovered");
+          schedule();
+        }, mobileLike ? 1800 : 220);
+      };
+
+      card.addEventListener("pointerdown", event => {
+        activatePortrait(event.clientX, event.clientY);
+      }, { passive: true });
+
+      card.addEventListener("pointerup", resetPortrait, { passive: true });
+
+      const touchPortrait = event => {
+        const touch = event.touches?.[0];
+        if (!touch) return;
+        activatePortrait(touch.clientX, touch.clientY);
+      };
+
+      card.addEventListener("touchstart", touchPortrait, { passive: true });
+      card.addEventListener("touchmove", touchPortrait, { passive: true });
+      card.addEventListener("touchend", resetPortrait, { passive: true });
+      return;
+    }
   });
 }
 
@@ -390,6 +497,10 @@ function setupFluidCometCursor() {
   }
 
   const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const mobileLike = coarse || window.matchMedia("(max-width: 620px)").matches;
+  if (mobileLike) {
+    container.classList.add("is-mobile-webgl");
+  }
   const readableSelector = [
     ".site-header",
     ".glass-card",
@@ -424,58 +535,72 @@ function setupFluidCometCursor() {
   let fluidReady = false;
   let pointerSamples = 0;
   let lastPointer = null;
+  let touchFluidVisible = false;
+
+  const showTouchFluid = () => {
+    if (!mobileLike || touchFluidVisible) return;
+    touchFluidVisible = true;
+    const reveal = () => container.classList.add("has-fluid-input", "has-touch-fluid");
+    if (fluidReady) {
+      reveal();
+    } else {
+      window.setTimeout(reveal, 950);
+    }
+  };
+
+  const dispatchFluidInput = (clientX, clientY, pointerType = "touch") => {
+    [canvas, window].forEach(target => {
+      const common = {
+        bubbles: true,
+        cancelable: true,
+        clientX,
+        clientY,
+        screenX: clientX,
+        screenY: clientY
+      };
+
+      if (window.PointerEvent) {
+        target.dispatchEvent(new PointerEvent("pointermove", {
+          ...common,
+          pointerId: 99,
+          pointerType,
+          isPrimary: true,
+          buttons: 1
+        }));
+        target.dispatchEvent(new PointerEvent("pointerdown", {
+          ...common,
+          pointerId: 99,
+          pointerType,
+          isPrimary: true,
+          buttons: 1
+        }));
+        target.dispatchEvent(new PointerEvent("pointerup", {
+          ...common,
+          pointerId: 99,
+          pointerType,
+          isPrimary: true
+        }));
+      }
+
+      target.dispatchEvent(new MouseEvent("mousemove", common));
+      target.dispatchEvent(new MouseEvent("mousedown", { ...common, buttons: 1 }));
+      target.dispatchEvent(new MouseEvent("mouseup", common));
+    });
+  };
 
   const dispatchFluidWarmup = () => {
-    const baseX = Math.round(window.innerWidth * 0.14);
-    const baseY = Math.round(window.innerHeight * 0.82);
+    const baseX = Math.round(window.innerWidth * (mobileLike ? 0.26 : 0.14));
+    const baseY = Math.round(window.innerHeight * (mobileLike ? 0.72 : 0.82));
     const points = [
       [baseX, baseY],
-      [baseX + 18, baseY - 10],
-      [baseX + 35, baseY + 6],
-      [baseX + 52, baseY - 8]
+      [baseX + (mobileLike ? 10 : 18), baseY - (mobileLike ? 6 : 10)],
+      [baseX + (mobileLike ? 20 : 35), baseY + (mobileLike ? 4 : 6)]
     ];
-    const targets = [canvas, window];
 
     points.forEach(([clientX, clientY], index) => {
       window.setTimeout(() => {
-        targets.forEach(target => {
-          const common = {
-            bubbles: true,
-            cancelable: true,
-            clientX,
-            clientY,
-            screenX: clientX,
-            screenY: clientY
-          };
-
-          if (window.PointerEvent) {
-            target.dispatchEvent(new PointerEvent("pointermove", {
-              ...common,
-              pointerId: 99,
-              pointerType: "mouse",
-              isPrimary: true
-            }));
-            target.dispatchEvent(new PointerEvent("pointerdown", {
-              ...common,
-              pointerId: 99,
-              pointerType: "mouse",
-              isPrimary: true,
-              buttons: 1
-            }));
-            target.dispatchEvent(new PointerEvent("pointerup", {
-              ...common,
-              pointerId: 99,
-              pointerType: "mouse",
-              isPrimary: true
-            }));
-          }
-
-          target.dispatchEvent(new MouseEvent("mousemove", common));
-          target.dispatchEvent(new MouseEvent("mousedown", { ...common, buttons: 1 }));
-          target.dispatchEvent(new MouseEvent("mouseup", common));
-          target.dispatchEvent(new MouseEvent("click", common));
-        });
-      }, 90 + index * 90);
+        dispatchFluidInput(clientX, clientY, mobileLike ? "touch" : "mouse");
+      }, 120 + index * 140);
     });
   };
 
@@ -486,16 +611,16 @@ function setupFluidCometCursor() {
       .then(({ initFluid }) => {
         initFluid({
           id: "siteLiquidCanvas",
-          simResolution: coarse ? 96 : 160,
-          dyeResolution: coarse ? 384 : 768,
+          simResolution: mobileLike ? 80 : 160,
+          dyeResolution: mobileLike ? 256 : 768,
           captureResolution: 512,
-          densityDissipation: 0.965,
-          velocityDissipation: 0.982,
+          densityDissipation: mobileLike ? 0.992 : 0.965,
+          velocityDissipation: mobileLike ? 0.991 : 0.982,
           pressure: 0.78,
-          pressureIteration: coarse ? 12 : 18,
-          curl: coarse ? 28 : 58,
-          splatRadius: coarse ? 0.075 : 0.115,
-          splatForce: coarse ? 3000 : 6200,
+          pressureIteration: mobileLike ? 12 : 18,
+          curl: mobileLike ? 54 : 58,
+          splatRadius: mobileLike ? 0.26 : 0.115,
+          splatForce: mobileLike ? 5000 : 6200,
           shading: true,
           colorUpdateSpeed: 0.035,
           transparent: true,
@@ -504,6 +629,9 @@ function setupFluidCometCursor() {
         dispatchFluidWarmup();
         window.setTimeout(() => {
           fluidReady = true;
+          if (mobileLike) {
+            container.classList.add("has-fluid-input", "has-touch-fluid");
+          }
         }, 900);
       })
       .catch(error => {
@@ -514,6 +642,7 @@ function setupFluidCometCursor() {
   const syncFluidState = event => {
     if (event && !event.isTrusted) return;
     if (event) startFluid();
+    if (mobileLike || event?.pointerType === "touch") showTouchFluid();
     if (event && fluidReady) {
       if (lastPointer) {
         const distance = Math.hypot(event.clientX - lastPointer.x, event.clientY - lastPointer.y);
@@ -529,8 +658,34 @@ function setupFluidCometCursor() {
     container.classList.toggle("is-readable-hover", readable);
   };
 
+  const syncTouchFluid = event => {
+    const touch = event.touches?.[0];
+    if (!touch) return;
+    startFluid();
+    showTouchFluid();
+    dispatchFluidInput(touch.clientX, touch.clientY, "touch");
+    if (!fluidReady) return;
+
+    const target = document.elementFromPoint(touch.clientX, touch.clientY);
+    const readable = Boolean(target?.closest(readableSelector));
+    container.classList.toggle("is-readable-hover", readable);
+  };
+
   window.addEventListener("pointermove", syncFluidState, { passive: true });
+  window.addEventListener("pointerdown", syncFluidState, { passive: true });
+  window.addEventListener("touchmove", syncTouchFluid, { passive: true });
+  window.addEventListener("touchstart", syncTouchFluid, { passive: true });
+  if (mobileLike) {
+    window.addEventListener("scroll", () => {
+      startFluid();
+      showTouchFluid();
+    }, { passive: true });
+  }
   window.addEventListener("pointerleave", () => container.classList.remove("is-readable-hover"), { passive: true });
+
+  if (mobileLike) {
+    window.setTimeout(startFluid, 250);
+  }
 
   new MutationObserver(() => syncFluidState()).observe(document.documentElement, {
     attributes: true,
@@ -544,14 +699,20 @@ function setupAmbientLiveBackground() {
 
   const ctx = canvas.getContext("2d");
   const coarse = window.matchMedia("(pointer: coarse)").matches;
-  const particleCount = coarse ? 44 : 118;
-  const waveCount = coarse ? 6 : 10;
+  const mobileQuery = window.matchMedia("(max-width: 620px)");
+  const mobileLike = coarse || mobileQuery.matches;
+  const particleCount = mobileLike ? 82 : 118;
+  const waveCount = mobileLike ? 9 : 10;
   let width = 0;
   let height = 0;
   let dpr = 1;
   let frame = 0;
   let hidden = document.hidden;
   let particles = [];
+  let splashes = [];
+  let scrollEnergy = 0;
+  let lastScrollY = window.scrollY;
+  let lastPointerSplash = 0;
 
   const colorsForTheme = theme => theme === "dark"
     ? {
@@ -584,6 +745,31 @@ function setupAmbientLiveBackground() {
     }));
   }
 
+  function addSplash(x, y, strength = 1) {
+    if (!mobileLike || prefersReducedMotion) return;
+    splashes.push({
+      x,
+      y,
+      radius: 10 + Math.random() * 14,
+      maxRadius: 74 + Math.random() * 58 * strength,
+      life: 1,
+      strength,
+      wobble: Math.random() * Math.PI * 2
+    });
+    if (splashes.length > 16) splashes.splice(0, splashes.length - 16);
+  }
+
+  function addScrollPulse() {
+    if (!mobileLike || prefersReducedMotion) return;
+    const current = window.scrollY;
+    const delta = Math.abs(current - lastScrollY);
+    lastScrollY = current;
+    scrollEnergy = Math.min(1, scrollEnergy + delta / 520);
+    if (delta > 18 && frame % 3 === 0) {
+      addSplash(width * (0.24 + Math.random() * 0.52), height * (0.24 + Math.random() * 0.52), 0.55);
+    }
+  }
+
   function drawAmbient() {
     if (hidden) return;
     frame += 1;
@@ -596,16 +782,16 @@ function setupAmbientLiveBackground() {
     ctx.fillRect(0, 0, width, height);
 
     ctx.save();
-    ctx.globalAlpha = light ? 0.18 : 0.1;
+    ctx.globalAlpha = mobileLike ? (light ? 0.22 : 0.16) : (light ? 0.18 : 0.1);
     ctx.strokeStyle = `rgba(${colors.line}, 1)`;
-    ctx.lineWidth = 0.5;
+    ctx.lineWidth = mobileLike ? 0.62 : 0.5;
     for (let i = 0; i < waveCount; i++) {
-      const yBase = (height / waveCount) * i + Math.sin(frame * 0.004 + i) * 16;
+      const yBase = (height / waveCount) * i + Math.sin(frame * 0.004 + i) * (mobileLike ? 22 : 16);
       ctx.beginPath();
       for (let x = -48; x <= width + 48; x += 24) {
         const y = yBase
-          + Math.sin(x * 0.0065 + frame * 0.007 + i * 1.7) * 7
-          + Math.cos(x * 0.012 + frame * 0.004 + i) * 3;
+          + Math.sin(x * 0.0065 + frame * 0.007 + i * 1.7) * (mobileLike ? 10 : 7)
+          + Math.cos(x * 0.012 + frame * 0.004 + i) * (mobileLike ? 4.5 : 3);
         if (x === -48) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       }
@@ -626,7 +812,7 @@ function setupAmbientLiveBackground() {
       const pulse = 0.58 + Math.sin(particle.phase + frame * 0.01) * 0.24;
       ctx.beginPath();
       ctx.arc(particle.x, particle.y, particle.r * pulse, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(${colors.particle}, ${light ? 0.22 : 0.16})`;
+      ctx.fillStyle = `rgba(${colors.particle}, ${mobileLike ? (light ? 0.28 : 0.24) : (light ? 0.22 : 0.16)})`;
       ctx.fill();
 
       if (!coarse && index % 4 === 0) {
@@ -643,6 +829,52 @@ function setupAmbientLiveBackground() {
       }
     });
 
+    if (mobileLike) {
+      scrollEnergy *= 0.92;
+      if (scrollEnergy > 0.01) {
+        ctx.save();
+        ctx.globalAlpha = scrollEnergy * (light ? 0.13 : 0.16);
+        ctx.strokeStyle = `rgba(${colors.glow}, 1)`;
+        ctx.lineWidth = 0.8;
+        for (let i = 0; i < 3; i++) {
+          const y = height * (0.2 + i * 0.28) + Math.sin(frame * 0.018 + i) * 24;
+          ctx.beginPath();
+          for (let x = -40; x <= width + 40; x += 26) {
+            const wave = Math.sin(x * 0.018 + frame * 0.018 + i) * 11;
+            if (x === -40) ctx.moveTo(x, y + wave);
+            else ctx.lineTo(x, y + wave);
+          }
+          ctx.stroke();
+        }
+        ctx.restore();
+      }
+
+      splashes.forEach((splash, index) => {
+        splash.life -= 0.018;
+        splash.radius += (splash.maxRadius - splash.radius) * 0.035;
+        splash.x += Math.cos(frame * 0.025 + splash.wobble) * 0.22;
+        splash.y += Math.sin(frame * 0.022 + splash.wobble) * 0.18;
+
+        const alpha = Math.max(0, splash.life);
+        const gradient = ctx.createRadialGradient(splash.x, splash.y, 0, splash.x, splash.y, splash.radius);
+        gradient.addColorStop(0, `rgba(${colors.glow}, ${alpha * (light ? 0.13 : 0.18) * splash.strength})`);
+        gradient.addColorStop(0.45, `rgba(${colors.line}, ${alpha * (light ? 0.08 : 0.11) * splash.strength})`);
+        gradient.addColorStop(1, `rgba(${colors.line}, 0)`);
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(splash.x, splash.y, splash.radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(splash.x, splash.y, splash.radius * 0.58, splash.wobble, splash.wobble + Math.PI * 1.25);
+        ctx.strokeStyle = `rgba(${colors.line}, ${alpha * (light ? 0.16 : 0.2)})`;
+        ctx.lineWidth = 0.7;
+        ctx.stroke();
+
+        if (splash.life <= 0) splashes.splice(index, 1);
+      });
+    }
+
     if (!prefersReducedMotion) requestAnimationFrame(drawAmbient);
   }
 
@@ -654,6 +886,30 @@ function setupAmbientLiveBackground() {
   }
 
   window.addEventListener("resize", resizeAmbient);
+  if (mobileLike) {
+    window.addEventListener("scroll", addScrollPulse, { passive: true });
+    window.addEventListener("mousemove", event => {
+      if (window.innerWidth > 620 || frame - lastPointerSplash < 5) return;
+      lastPointerSplash = frame;
+      addSplash(event.clientX, event.clientY, 0.7);
+    }, { passive: true });
+    window.addEventListener("pointermove", event => {
+      if (window.innerWidth > 620 || frame - lastPointerSplash < 5) return;
+      lastPointerSplash = frame;
+      addSplash(event.clientX, event.clientY, 0.74);
+    }, { passive: true });
+    window.addEventListener("touchstart", event => {
+      const touch = event.touches?.[0];
+      if (touch) addSplash(touch.clientX, touch.clientY, 1);
+    }, { passive: true });
+    window.addEventListener("touchmove", event => {
+      const touch = event.touches?.[0];
+      if (touch && frame % 2 === 0) addSplash(touch.clientX, touch.clientY, 0.72);
+    }, { passive: true });
+    window.addEventListener("pointerdown", event => {
+      if (window.innerWidth <= 620) addSplash(event.clientX, event.clientY, 0.9);
+    }, { passive: true });
+  }
   document.addEventListener("visibilitychange", () => {
     hidden = document.hidden;
     if (!hidden) requestAnimationFrame(drawAmbient);
