@@ -185,9 +185,32 @@ function setupAboutSubnav() {
   const links = qsa("[data-about-nav]");
   if (!links.length) return;
 
+  const nav = qs(".about-mini-nav");
+  const aboutSection = qs(".about-journey");
+  const aboutContent = qs(".about-content");
+  if (!nav || !aboutSection || !aboutContent) return;
+
+  const originalParent = nav.parentNode;
+  const originalNextSibling = nav.nextSibling;
+  const mobileQuery = window.matchMedia("(max-width: 620px)");
   const blocks = links
     .map(link => qs(`#${link.dataset.aboutNav}`))
     .filter(Boolean);
+  let ticking = false;
+  let navMovedToBody = false;
+
+  const moveNavForViewport = () => {
+    if (mobileQuery.matches && !navMovedToBody) {
+      document.body.appendChild(nav);
+      nav.classList.add("is-mobile-dock");
+      navMovedToBody = true;
+    } else if (!mobileQuery.matches && navMovedToBody) {
+      originalParent.insertBefore(nav, originalNextSibling);
+      nav.classList.remove("is-mobile-dock", "is-mobile-visible");
+      aboutContent.classList.remove("has-mobile-about-dock");
+      navMovedToBody = false;
+    }
+  };
 
   const setActive = id => {
     links.forEach(link => {
@@ -199,8 +222,24 @@ function setupAboutSubnav() {
   };
 
   const update = () => {
-    const nav = qs(".about-mini-nav");
-    const marker = (nav?.getBoundingClientRect().bottom ?? 0) + 72;
+    moveNavForViewport();
+
+    if (mobileQuery.matches) {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+      const aboutStart = aboutContent.offsetTop - window.innerHeight * 0.14;
+      const aboutEnd = aboutSection.offsetTop + aboutSection.offsetHeight - window.innerHeight * 0.42;
+      const showDock = scrollTop >= aboutStart && scrollTop <= aboutEnd;
+
+      nav.classList.toggle("is-mobile-visible", showDock);
+      aboutContent.classList.toggle("has-mobile-about-dock", showDock);
+    } else {
+      nav.classList.remove("is-mobile-visible");
+      aboutContent.classList.remove("has-mobile-about-dock");
+    }
+
+    const marker = mobileQuery.matches
+      ? window.innerHeight * 0.45
+      : (nav.getBoundingClientRect().bottom ?? 0) + 72;
     let current = blocks[0]?.id;
     let closestDistance = Number.POSITIVE_INFINITY;
 
@@ -221,9 +260,37 @@ function setupAboutSubnav() {
     if (current) setActive(current);
   };
 
+  links.forEach(link => {
+    link.addEventListener("click", event => {
+      if (!mobileQuery.matches) return;
+      const target = qs(link.getAttribute("href"));
+      if (!target) return;
+
+      event.preventDefault();
+      const targetTop = target.getBoundingClientRect().top + window.scrollY - 82;
+      window.scrollTo({ top: targetTop, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      history.replaceState(null, "", link.getAttribute("href"));
+      setActive(link.dataset.aboutNav);
+      nav.classList.add("is-mobile-visible");
+    });
+  });
+
+  const requestUpdate = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      update();
+    });
+  };
+
   update();
-  window.addEventListener("scroll", update, { passive: true });
-  window.addEventListener("resize", update);
+  window.addEventListener("scroll", requestUpdate, { passive: true });
+  window.addEventListener("touchmove", requestUpdate, { passive: true });
+  window.addEventListener("resize", requestUpdate);
+  window.addEventListener("orientationchange", requestUpdate);
+  mobileQuery.addEventListener?.("change", requestUpdate);
+  window.visualViewport?.addEventListener("resize", requestUpdate);
 }
 
 function setupProgress() {
