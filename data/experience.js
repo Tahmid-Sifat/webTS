@@ -2,12 +2,12 @@ export const experiences = [
   {
     role: "Cybersecurity Intern Associate",
     organisation: "SMBC Group",
-    dates: "Incoming",
+    dates: "July 2026 - Present",
     location: "London, United Kingdom",
     type: "Internship",
-    summary: "Preparing to join SMBC Group in a cybersecurity internship role, bringing together secure thinking, curiosity, and practical software experience.",
-    bullets: ["Strengthening cybersecurity fundamentals within a financial services environment.", "Applying technical experience to secure thinking, risk awareness, and responsible technology.", "Developing industry-ready skills in communication, teamwork, documentation, and problem-solving."],
-    skills: ["Cybersecurity, resillience and governence", "Secure thinking", "Professional practice"],
+    summary: "Working as a Cybersecurity Intern Associate at SMBC Group, supporting secure, resilient, and well-governed technology within a financial services environment.",
+    bullets: ["Contributing to Governance, Risk and Control activities, strengthening risk awareness, accountability, and responsible technology practices.", "Developing an understanding of Security Engineering and Cyber Resilience, with a focus on safeguarding systems and maintaining operational continuity.", "Building awareness of Security Operations Centre (SOC) practices, alongside professional skills in documentation, communication, teamwork, and problem-solving."],
+    skills: ["Governance, Risk and Control", "Security Engineering", "Cyber Resilience", "SOC Operations", "Risk Awareness", "Security Documentation", "Professional Practice"],
     link: ""
   },
   {
@@ -24,7 +24,7 @@ export const experiences = [
   {
     role: "Associate Teaching Assistant",
     organisation: "Brunel University London",
-    dates: "September 2025 - Present",
+    dates: "September 2025 - May 2026",
     location: "Department of Computer Science",
     type: "Academic",
     summary: "Supporting labs and tutorials for undergraduate Computer Science students while strengthening teaching, mentoring, and academic communication skills.",
@@ -35,7 +35,7 @@ export const experiences = [
   {
     role: "Brunel Careers Ambassador",
     organisation: "Student Professional Development, Brunel University London",
-    dates: "October 2025 - Present",
+    dates: "October 2025 - June 2026",
     location: "Brunel University London",
     type: "Campus role",
     summary: "Promoting career development services and engaging with diverse student groups.",

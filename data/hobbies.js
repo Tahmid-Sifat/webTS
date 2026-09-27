@@ -1,7 +1,7 @@
 export const hobbies = [
   { title: "Travel and exploration", detail: "Visited 22 countries and still counting." },
   { title: "Photography", detail: "Mobile photography achievements and exhibition experience." },
-  { title: "Movies", detail: "Stories, visuals, and atmosphere outside the code editor." },
+  { title: "Movies", detail: "Theaters , stories, visuals, and atmosphere outside the code editor." },
   { title: "Music and guitar", detail: "A creative reset and stress reliever." },
   { title: "Badminton", detail: "Main sport and favourite competitive outlet." },
   { title: "Target shooting", detail: "Precision, patience, and focus." },

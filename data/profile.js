@@ -8,7 +8,7 @@ export const profile = {
   photo: "images/tsMain.png",
   cv: "Files/CV of Tahmid Al Sifat NS.pdf",
   heroSentence: "This is not just my portfolio. This is my digital space to explore beyond limits, build with curiosity, and turn imagination into real, working experiences.",
-  identityLine: "BSc Computer Science Student ( Year 2 ) - incoming Cyber Security Intern Associate at SMBC group - Full Stack Dev - Teaching Assistant - Student Ambassador",
+  identityLine: " IT Security Intern Associate at SMBC group - BSc Computer Science Student ( Year 2 ) - Full Stack Dev - Teaching Assistant - Student Ambassador",
   intro: "I build practical web systems, experiment with emerging technologies, compete in hackathons, and explore life through travel, sports, creativity, and curiosity.",
   about: [
     "I’m Tahmid Al Sifat, a curious learner and creative builder who enjoys exploring new ideas, working with people, and bringing meaningful projects to life.",
@@ -17,8 +17,8 @@ export const profile = {
     "Outside technology, I'm outgoing, curious, and people-focused. I enjoy teamwork, leadership, good conversations, food, travel, photography, movies, music, and sports. Badminton is my main sport, but I also enjoy target shooting, fencing, cycling, swimming, and playing guitar."
   ],
   stats: [
-    { value: "6", label: "Hackathons" },
-    { value: "3", label: "Wins" },
+    { value: "8", label: "Hackathons" },
+    { value: "4", label: "Wins" },
     { value: "22+", label: "Countries explored" },
     { value: "7+", label: "Work experience" }
   ],

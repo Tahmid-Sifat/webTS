@@ -8,6 +8,10 @@ export const achievements = [
     detail: "Hillingdon Hackathon 2026."
   },
   {
+    title: "3rd Place at the Rare Build Hackathon London ",
+    detail: "Rare Build 2026 "
+  },
+  {
     title: "Brunel Software Innovation Award 2026",
     detail: "Sponsored by Elanco."
   },

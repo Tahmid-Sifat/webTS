@@ -39,7 +39,7 @@ export function AboutSection() {
               <div class="glass-card identity-card reveal">
                 <span>Current direction</span>
                 <strong>Bachelors of Computer Science at Brunel University London</strong>
-                <p>Completed 2nd year , preparing to join industrial placement year.</p>
+                <p>Completed 2nd year , currently on industrial placement year </p>
               </div>
               <div class="stats-grid">
                 ${list(profile.stats, item => `
